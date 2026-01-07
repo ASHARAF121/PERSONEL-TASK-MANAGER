@@ -1,0 +1,66 @@
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send username and password to the backend for authentication
+      const response = await axios.post('http://localhost:3000/task/login', { username, password });
+
+      // Save JWT token and role in localStorage
+      const { token, } = response.data;
+      localStorage.setItem('token', token);
+  
+      navigate('/dashBoard');  // Redirect to dashboard after successful login
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Something went wrong');
+    }
+  };
+
+  return (
+    <div className="max-w-sm mx-auto p-4 bg-white shadow-md rounded-md">
+      <h2 className="text-xl mb-4">Login</h2>
+      <form onSubmit={handleSubmit}>
+       
+        <input
+          type="text"
+          placeholder="Username"
+          className="w-full p-2 mb-2 border border-gray-300 rounded"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+       
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 mb-2 border border-gray-300 rounded"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+      
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
+          Login
+        </button>
+        <button type="button" className="w-full p-2 mt-2 bg-green-500 text-white rounded" onClick={() => navigate('/register')}>
+          Go to Register
+        </button>
+      </form>
+
+    
+      {message && <p className="mt-2 text-red-500">{message}</p>}
+    </div>
+  );
+};
+
+export default Login;

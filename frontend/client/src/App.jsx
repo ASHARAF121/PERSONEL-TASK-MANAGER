@@ -25,13 +25,7 @@ const App = () => {
           }
         />
 
-        {/* Optionally, Admin page route
-        <Route
-          path="/admin"
-          element={token && localStorage.getItem('role') === 'admin' ? <Admin /> : <Navigate to="/login" />}
-        /> */}
-
-        {/* Redirect to login page if no token */}
+      
         <Route
           path="/"
           element={token ? <Navigate to="/dashBoard" /> : <Navigate to="/login" />}

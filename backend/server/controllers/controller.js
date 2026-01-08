@@ -44,7 +44,6 @@ exports.login = async (req, res) => {
             const dailyTasks = await getDailyTasksForUser(user.name);
             const dashboardInfo = {
                 username: user.username,
-                role: user.role,
                 dailyTasks
             };
 

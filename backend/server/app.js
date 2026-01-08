@@ -16,12 +16,11 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/task-manage
     console.log('failed to connect to mongoDB')
 })
 
-app.get('/',(req,res)=>{
-    res.send('API is running...')
-})
 
+const tasksRouter = require('./routes/tasks');
 const Routes = require('./routes/route')
-app.use('/task',Routes)
+app.use('/task', Routes);
+app.use('/api', tasksRouter);
 
 app.listen(port,()=>{
     console.log(`server running at http://localhost:${port}`)
